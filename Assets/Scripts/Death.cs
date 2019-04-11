@@ -6,9 +6,10 @@ namespace ColorSwitch
 {
     public class Death : MonoBehaviour
     {
-        void onTriggerEnter(Collider2D other)
+        void OnTriggerEnter2D(Collider2D other)
         {
             Destroy(other.gameObject);
         }
+
     }
 }

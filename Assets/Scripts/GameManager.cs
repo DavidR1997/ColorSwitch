@@ -10,6 +10,10 @@ namespace ColorSwitch
     {
         #region Singleton
         public static GameManager Instance = null;
+        public bool isGameOver = false;
+        public int score = 0;
+        public delegate void IntCallBack(int number);
+        public IntCallBack scoreAdded;
         // Use this for initialization
         void Awake()
         {
@@ -28,6 +32,15 @@ namespace ColorSwitch
         {
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.buildIndex);
+        }
+        public void AddScore(int scoreToAdd)
+        {
+            if (isGameOver)
+                return;
+
+            score += scoreToAdd;
+
+            scoreAdded.Invoke(score);
         }
     }
 }

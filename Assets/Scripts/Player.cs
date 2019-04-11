@@ -13,9 +13,7 @@ namespace ColorSwitch
         public Color[] colors = new Color[4];
 
         public UnityEvent onGameOver;
-
-        private Color currentColor;
-
+        private ScoreUI scoreCount;
         void Start()
         {
             RandomizeColor();
@@ -42,6 +40,7 @@ namespace ColorSwitch
             if (col.name == "Star")
             {
                 // Add score
+                GameManager.Instance.AddScore(1);
                 Destroy(col.gameObject);
                 return;
             }
@@ -52,13 +51,36 @@ namespace ColorSwitch
             {
                 Debug.Log("GAME OVER!");
                 onGameOver.Invoke();
+                //DestroyPlayer();
             }
+        }
+
+        Color GetRandomColor()
+        {
+            int index = Random.Range(0, 4);
+            return colors[index];
         }
 
         void RandomizeColor()
         {
-            int index = Random.Range(0, 4);
-            rend.color = colors[index];
+            // Generate a random color
+            Color randomColor = GetRandomColor();
+            // While randomColor is the same as current color
+            while(rend.color == randomColor)
+            {
+                // Generate new randomColor
+                randomColor = GetRandomColor();
+            }
+
+            // Apply color to renderer
+            rend.color = randomColor;
+            //currentColor = colors[index];
+
+            
+        }
+        void DestroyPlayer()
+        {
+            Destroy(gameObject);
         }
     }
 }
